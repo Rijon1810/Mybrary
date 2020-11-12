@@ -1,35 +1,37 @@
-if(process.env.NODE_ENV !== 'production'){
-    require('dotenv').config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
 }
-const express = require('express');
+const express = require("express");
 const app = express();
-const expressLayouts = require('express-ejs-layouts');
+const expressLayouts = require("express-ejs-layouts");
+const bodyParser = require("body-parser");
 
-const indexRouter = require('./routes/index');
+const indexRouter = require("./routes/index");
+const authorRouter = require("./routes/author");
 
-app.set('view engine','ejs');
-app.set('views',__dirname + '/views');
-app.set('layout','layouts/layout');
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/views");
+app.set("layout", "layouts/layout");
 app.use(expressLayouts);
 /* To serve static files such as images, CSS files, and JavaScript files, 
 use the express.static built-in middleware function in Express. */
-app.use(express.static('public'));
+app.use(express.static("public"));
+app.use(bodyParser.urlencoded({ limit: "10mb", extended: false }));
 
 //---------------------- Database Connection--------------------------------//
 //connection for database
-const mongoose = require('mongoose');
-mongoose.connect(process.env.DATABASE_URL,{
-    useNewUrlParser:true,
-    useUnifiedTopology: true
-})
+const mongoose = require("mongoose");
+mongoose.connect(process.env.DATABASE_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 const db = mongoose.connection;
 
-db.on('error',error=> console.error(error));
-db.once('open',()=> console.log('Connected to Mongoose'));
+db.on("error", (error) => console.error(error));
+db.once("open", () => console.log("Connected to Mongoose"));
 
 //-------------------------------------------------------//
-app.use('/',indexRouter);
+app.use("/", indexRouter);
+app.use("/authors", authorRouter);
 
-
-
-app.listen(process.env.PORT || 3000);//for hosting in which port 
+app.listen(process.env.PORT || 3000); //for hosting in which port
