@@ -89,7 +89,8 @@ router.put('/:id', async (req, res) => {
         if (req.body.cover != null && req.body.cover !== '') {
             saveCover(book, req.body.cover)
         }
-        await book.save()
+        //So that peole cannt change any thing now
+      //  await book.save()
         res.redirect(`/books/${book.id}`)
     } catch {
         if (book != null) {
@@ -105,7 +106,8 @@ router.delete('/:id', async (req, res) => {
     let book
     try {
         book = await Book.findById(req.params.id)
-        await book.remove()
+        //So that peole cannt change any thing now
+       // await book.remove() 
         res.redirect('/books')
     } catch {
         if (book != null) {
