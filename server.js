@@ -7,7 +7,8 @@ const expressLayouts = require("express-ejs-layouts");
 const bodyParser = require("body-parser");
 
 const indexRouter = require("./routes/index");
-const authorRouter = require("./routes/author");
+const authorRouter = require("./routes/authors");
+const bookRouter = require("./routes/books");
 
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
@@ -16,7 +17,7 @@ app.use(expressLayouts);
 /* To serve static files such as images, CSS files, and JavaScript files, 
 use the express.static built-in middleware function in Express. */
 app.use(express.static("public"));
-app.use(bodyParser.urlencoded({ limit: "10mb", extended: false }));
+app.use(bodyParser.urlencoded({ limit: "10mb", extended: false }));//sending value by url
 
 //---------------------- Database Connection--------------------------------//
 //connection for database
@@ -32,6 +33,7 @@ db.once("open", () => console.log("Connected to Mongoose"));
 
 //-------------------------------------------------------//
 app.use("/", indexRouter);
-app.use("/authors", authorRouter);
+app.use("/authors", authorRouter);//if we want to use routes folder that why we added
+app.use("/books", bookRouter); 
 
 app.listen(process.env.PORT || 3000); //for hosting in which port
