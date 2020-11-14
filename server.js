@@ -5,6 +5,7 @@ const express = require("express");
 const app = express();
 const expressLayouts = require("express-ejs-layouts");
 const bodyParser = require("body-parser");
+const methodOverride  = require('method-override');
 
 const indexRouter = require("./routes/index");
 const authorRouter = require("./routes/authors");
@@ -14,6 +15,7 @@ app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.set("layout", "layouts/layout");
 app.use(expressLayouts);
+app.use(methodOverride('_method'));
 /* To serve static files such as images, CSS files, and JavaScript files, 
 use the express.static built-in middleware function in Express. */
 app.use(express.static("public"));
